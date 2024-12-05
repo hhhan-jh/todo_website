@@ -3,18 +3,23 @@ const btnCreateEl = document.getElementById('btn_create');
 
 //item object의 정보들을 넣을 공간
 let todos = [];
+loadData();
+displayTodos();
 
 btnCreateEl.onclick = createTodo;
 
+//btnCreateEl 눌렸을때: 새로운 item object 만들기
 function createTodo(){
-    const item = createItemData(); //정보 생성
-    const elem = createItemElem(item); //요소 생성
-    addEventListener(item, elem);
+    const data = createItemData(); //정보 생성
+    const elem = createItemElem(data); //요소 생성
+    addEventListener(data, elem);
     listEl.prepend(elem.itemEl); //리스트의 최상단에 삽입
 
     //바로 내용 편집
     elem.inputEl.removeAttribute('disabled');
     elem.inputEl.focus();
+
+    saveData(); //생성 update
 }
 
 //새로운 item object의 정보 생성
@@ -67,14 +72,12 @@ function createItemElem(item){
     actionsEl.append(btnEditEl);
     actionsEl.append(btnRemoveEl);
 
-    
-    
-
     return {itemEl, inputEl, chkboxEl, btnEditEl, btnRemoveEl};
 }
 
+//새로운 item object의 요소 각각에 이벤트 리스너 달기
 function addEventListener(item, elem){
-    //이벤트 리스너 달기
+    
     elem.chkboxEl.addEventListener('change', ()=>{
         item.isFinish = elem.chkboxEl.checked;
 
@@ -92,6 +95,7 @@ function addEventListener(item, elem){
     })
     elem.inputEl.addEventListener('blur', ()=>{
         elem.inputEl.setAttribute('disabled', '');
+        saveData(); //수정 update
     })
     elem.btnEditEl.addEventListener('click', ()=>{
         elem.inputEl.removeAttribute('disabled');
@@ -100,5 +104,31 @@ function addEventListener(item, elem){
     elem.btnRemoveEl.addEventListener('click', ()=>{
         todos = todos.filter(t=>t.id != item.id); //해당 todo 제외한 리스트 반환
         elem.itemEl.remove(); //요소 삭제  
+        saveData(); //삭제 update
     })
+}
+
+//새로고침해도 유실되지 않게 로컬영역에 데이터 저장
+function saveData(){
+    const data = JSON.stringify(todos); //todos를 string화해서 JSON 변환
+    window.localStorage.setItem('my_todos', data);
+}
+
+//로컬영역의 데이터 불러오기
+function loadData(){
+    const data = localStorage.getItem('my_todos');
+
+    if(data){
+        todos = JSON.parse(data); //JSON string을 object로 변환
+    }
+}
+
+//todos의 데이터 보여주기
+function displayTodos(){
+    for(let i =0; i<todos.length; i++){
+        const data = todos[i];
+        const elem = createItemElem(data);
+        addEventListener(data, elem);
+        listEl.prepend(elem.itemEl); //리스트의 최상단에 삽입
+    }
 }

@@ -1,0 +1,94 @@
+body{
+    background-color: #A5B68D;
+}
+
+/*header*/
+header{
+    display: flex;
+    justify-content: space-between;
+}
+
+a{
+    padding: 10px;
+
+    color: #fff;
+    font-size: .7rem;
+}
+
+#title{
+    color: #fff;
+    font-weight: 700;
+}
+
+#btn_create{
+    background: none;
+    border: none;
+    color: #fff;
+    text-decoration: underline;
+}
+
+/*item*/
+.item{
+    display: flex;
+    margin:10px;
+    padding:10px;
+
+    border: 1px solid #fff;
+    border-radius: 10px;
+    background-color: #FCFAEE;
+}
+.chkbox{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.txt_box{
+    flex-grow: 10;
+    margin: 5px;
+
+    border: none;
+    background-color: transparent;
+    color: #DA8359
+}
+
+.material_icons{
+    padding: 5px;
+    margin: 5px;
+    
+    color: transparent;
+    border: none;
+    background-color: transparent;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+}
+
+.btn_edit{
+    background-image: url(../src/icon_pen.png);
+}
+
+.btn_remove{
+    background-image: url(../src/icon_trashcan.png);
+}
+
+.actions{
+    display: flex;
+}
+
+/*animation*/
+.item:hover{
+    animation-duration: .7;
+    border: 1px solid #DA8359;
+}
+.txt_box:focus{
+    outline: none;
+    border-bottom: 1.5px solid #DA8359;
+}
+
+div.finished{
+    background-color: #e5e3d7;
+}
+input.finished{
+    color: #a76443;
+    text-decoration: line-through;
+}
